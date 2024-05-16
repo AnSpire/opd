@@ -1,4 +1,5 @@
 import { useRef } from "react";
+import React, { useEffect, useState } from 'react';
 import Header from "../components/Header";
 import ServiceCard from "../components/ServiceCard";
 import Socials from "../components/Socials";
@@ -38,6 +39,20 @@ export default function Home() {
       behavior: "smooth",
     });
   };
+  const [username, setUsername] = useState('');
+
+  useEffect(() => {
+    // Проверка выполнения на клиенте
+    if (typeof window !== 'undefined') {
+      // Получите имя пользователя из localStorage
+      const storedUsername = localStorage.getItem('username');
+      if (storedUsername) {
+        console.log("username:");
+        console.log(storedUsername);
+        setUsername(storedUsername);
+      }
+    }
+  }, []);
 
   useIsomorphicLayoutEffect(() => {
     stagger(
@@ -48,10 +63,10 @@ export default function Home() {
   }, []);
 
   return (
-    <div className={`relative `}>
+    <div className={`relative  p-6`}>
       
       <Head>
-        <title>{data.name}</title>
+        <title>{username}</title>
       </Head>
 
       <div className="gradient-circle"></div>
@@ -68,7 +83,7 @@ export default function Home() {
               ref={textOne}
               className="text-3xl tablet:text-6xl laptop:text-6xl laptopl:text-8xl p-1 tablet:p-2 text-bold w-4/5 mob:w-full laptop:w-4/5"
             >
-              {data.headerTaglineOne}
+              {username}
             </h1>
             <h1
               ref={textTwo}

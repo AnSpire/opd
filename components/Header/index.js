@@ -12,9 +12,61 @@ const Header = ({ handleWorkScroll, handleAboutScroll, isBlog }) => {
   const [mounted, setMounted] = useState(false);
 
   const { name, showBlog, showResume } = data;
+  const [username, setUsername] = useState('');
+
+  useEffect(() => {
+    // Проверка выполнения на клиенте
+    if (typeof window !== 'undefined') {
+      const storedUsername = localStorage.getItem('username');
+      if (storedUsername) {
+        setUsername(storedUsername);
+      }
+    }
+  }, []);
+
+  const handleLogout = async () => {
+    try {
+      const response = await fetch('http://localhost:8000/api/accounts/logout/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          refresh: localStorage.getItem('refreshToken'),
+        }),
+      });
+
+      if (response.ok) {
+        // Очистка localStorage
+        localStorage.removeItem('username');
+        localStorage.removeItem('accessToken');
+        localStorage.removeItem('refreshToken');
+
+        // Перезагрузка страницы
+        window.location.reload();
+      } else {
+        console.error('Logout failed');
+      }
+    } catch (error) {
+      console.error('An error occurred:', error);
+    }
+  };
 
   useEffect(() => {
     setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    // Проверка выполнения на клиенте
+    if (typeof window !== 'undefined') {
+      // Получите имя пользователя из localStorage
+      const storedUsername = localStorage.getItem('username');
+      if (storedUsername) {
+        console.log("username:");
+        console.log(storedUsername);
+        setUsername(storedUsername);
+      }
+    }
   }, []);
 
   return (
@@ -51,12 +103,8 @@ const Header = ({ handleWorkScroll, handleAboutScroll, isBlog }) => {
                     className="h-5"
                     src={`/images/${
                       !open
-                        ? theme === "dark"
-                          ? "menu-white.svg"
-                          : "menu.svg"
-                        : theme === "light"
-                        ? "cancel.svg"
-                        : "cancel-white.svg"
+                        ? theme === "dark" ? "menu-white.svg" : "menu.svg"
+                        : theme === "light" ? "cancel.svg" : "cancel-white.svg"
                     }`}
                   ></img>
                 </Popover.Button>
@@ -84,10 +132,8 @@ const Header = ({ handleWorkScroll, handleAboutScroll, isBlog }) => {
                     </Button>
                   )}
 
-                  <Button
-                    onClick={() => window.open("mailto:hello@chetanverma.com")}
-                  >
-                    Contact
+                  <Button onClick={() => router.push("/RegisterForm")}>
+                    RegisterForm
                   </Button>
                 </div>
               ) : (
@@ -107,10 +153,8 @@ const Header = ({ handleWorkScroll, handleAboutScroll, isBlog }) => {
                     </Button>
                   )}
 
-                  <Button
-                    onClick={() => window.open("mailto:hello@chetanverma.com")}
-                  >
-                    Contact
+                  <Button onClick={() => router.push("/RegisterForm")}>
+                    RegisterForm
                   </Button>
                 </div>
               )}
@@ -127,7 +171,7 @@ const Header = ({ handleWorkScroll, handleAboutScroll, isBlog }) => {
           onClick={() => router.push("/")}
           className="font-medium cursor-pointer mob:p-2 laptop:p-0"
         >
-          {name}.
+          {username}
         </h1>
         {!isBlog ? (
           <div className="flex">
@@ -145,9 +189,19 @@ const Header = ({ handleWorkScroll, handleAboutScroll, isBlog }) => {
               </Button>
             )}
 
-            <Button onClick={() => window.open("mailto:hello@chetanverma.com")}>
-              Contact
+            <Button
+              onClick={() => {
+                if (username) {
+                  handleLogout();
+                } else {
+                  router.push('/login');
+                }
+              }}
+              classes="first:ml-1"
+            >
+              {username ? 'Logout' : 'Login'}
             </Button>
+
             {mounted && theme && data.darkMode && (
               <Button
                 onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
@@ -174,8 +228,11 @@ const Header = ({ handleWorkScroll, handleAboutScroll, isBlog }) => {
               </Button>
             )}
 
-            <Button onClick={() => window.open("mailto:hello@chetanverma.com")}>
-              Contact
+            <Button
+              onClick={() => router.push("/RegisterForm")}
+              classes="first:ml-1"
+            >
+              RegisterForm
             </Button>
 
             {mounted && theme && data.darkMode && (
