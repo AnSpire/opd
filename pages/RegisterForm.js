@@ -23,7 +23,7 @@ const RegisterForm = () => {
     data.append('username', formData.username);
     data.append('email', formData.email);
     data.append('password', formData.password);
-    data.append('password2', "aaa111aaa");
+    data.append('password2', "blackyt31");
     try {
       const response = await fetch('http://localhost:8000/api/accounts/register/', {
         method: 'POST',

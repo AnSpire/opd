@@ -13,13 +13,18 @@ const Header = ({ handleWorkScroll, handleAboutScroll, isBlog }) => {
 
   const { name, showBlog, showResume } = data;
   const [username, setUsername] = useState('');
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
     // Проверка выполнения на клиенте
     if (typeof window !== 'undefined') {
-      const storedUsername = localStorage.getItem('username');
-      if (storedUsername) {
-        setUsername(storedUsername);
+      const accessToken = localStorage.getItem('accessToken');
+      if (accessToken) {
+        setIsAuthenticated(true);
+        const storedUsername = localStorage.getItem('username');
+        if (storedUsername) {
+          setUsername(storedUsername);
+        }
       }
     }
   }, []);
@@ -42,6 +47,10 @@ const Header = ({ handleWorkScroll, handleAboutScroll, isBlog }) => {
         localStorage.removeItem('accessToken');
         localStorage.removeItem('refreshToken');
 
+        // Обновление состояния аутентификации
+        setIsAuthenticated(false);
+        setUsername('');
+
         // Перезагрузка страницы
         window.location.reload();
       } else {
@@ -54,19 +63,6 @@ const Header = ({ handleWorkScroll, handleAboutScroll, isBlog }) => {
 
   useEffect(() => {
     setMounted(true);
-  }, []);
-
-  useEffect(() => {
-    // Проверка выполнения на клиенте
-    if (typeof window !== 'undefined') {
-      // Получите имя пользователя из localStorage
-      const storedUsername = localStorage.getItem('username');
-      if (storedUsername) {
-        console.log("username:");
-        console.log(storedUsername);
-        setUsername(storedUsername);
-      }
-    }
   }, []);
 
   return (
@@ -171,12 +167,10 @@ const Header = ({ handleWorkScroll, handleAboutScroll, isBlog }) => {
           onClick={() => router.push("/")}
           className="font-medium cursor-pointer mob:p-2 laptop:p-0"
         >
-          {username}
+          {isAuthenticated && username}
         </h1>
         {!isBlog ? (
           <div className="flex">
-            <Button onClick={handleWorkScroll}>Work</Button>
-            <Button onClick={handleAboutScroll}>About</Button>
             {showBlog && (
               <Button onClick={() => router.push("/blog")}>Blog</Button>
             )}
@@ -191,7 +185,7 @@ const Header = ({ handleWorkScroll, handleAboutScroll, isBlog }) => {
 
             <Button
               onClick={() => {
-                if (username) {
+                if (isAuthenticated) {
                   handleLogout();
                 } else {
                   router.push('/login');
@@ -199,7 +193,7 @@ const Header = ({ handleWorkScroll, handleAboutScroll, isBlog }) => {
               }}
               classes="first:ml-1"
             >
-              {username ? 'Logout' : 'Login'}
+              {isAuthenticated ? 'Logout' : 'Login'}
             </Button>
 
             {mounted && theme && data.darkMode && (

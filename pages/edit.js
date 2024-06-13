@@ -11,7 +11,7 @@ import yourData from "../data/portfolio.json";
 const Edit = () => {
   // states
   const [data, setData] = useState(yourData);
-  const [currentTabs, setCurrentTabs] = useState("HEADER");
+  const [currentTabs, setCurrentTabs] = useState("PROJECTS");
   const { theme } = useTheme();
 
   const saveData = () => {
@@ -147,7 +147,7 @@ const Edit = () => {
   };
 
   return (
-    <div className={`container mx-auto`}>
+    <div className={`container mx-auto p-6`}>
       <Header isBlog></Header>
       
       <div className="mt-10">
@@ -162,12 +162,6 @@ const Edit = () => {
           </div>
 
           <div className="flex items-center">
-            <Button
-              onClick={() => setCurrentTabs("HEADER")}
-              type={currentTabs === "HEADER" && "primary"}
-            >
-              Header
-            </Button>
             <Button
               onClick={() => setCurrentTabs("PROJECTS")}
               type={currentTabs === "PROJECTS" && "primary"}
@@ -200,148 +194,6 @@ const Edit = () => {
             </Button>
           </div>
         </div>
-        {/* HEADER */}
-        {currentTabs === "HEADER" && (
-          <div className="mt-10">
-            <div className="flex items-center">
-              <label className="w-1/5 text-lg opacity-50">Name</label>
-              <input
-                value={data.name}
-                onChange={(e) => setData({ ...data, name: e.target.value })}
-                className="w-4/5 ml-10 p-2 rounded-md shadow-lg border-2"
-                type="text"
-              ></input>
-            </div>
-            <div className="mt-5 flex items-center">
-              <label className="w-1/5 text-sx opacity-50">
-                Header Tagline One
-              </label>
-              <input
-                value={data.headerTaglineOne}
-                onChange={(e) =>
-                  setData({ ...data, headerTaglineOne: e.target.value })
-                }
-                className="w-4/5 ml-10 p-2 rounded-md shadow-lg border-2"
-                type="text"
-              ></input>
-            </div>
-            <div className="mt-5 flex items-center">
-              <label className="w-1/5 text-lg opacity-50">
-                Header Tagline Two
-              </label>
-              <input
-                value={data.headerTaglineTwo}
-                onChange={(e) =>
-                  setData({ ...data, headerTaglineTwo: e.target.value })
-                }
-                className="w-4/5 ml-10 p-2 rounded-md shadow-lg border-2"
-                type="text"
-              ></input>
-            </div>
-            <div className="mt-5 flex items-center">
-              <label className="w-1/5 text-lg opacity-50">
-                Header Tagline Three
-              </label>
-              <input
-                value={data.headerTaglineThree}
-                onChange={(e) =>
-                  setData({ ...data, headerTaglineThree: e.target.value })
-                }
-                className="w-4/5 ml-10 p-2 rounded-md shadow-lg border-2"
-                type="text"
-              ></input>
-            </div>
-            <div className="mt-5 flex items-center">
-              <label className="w-1/5 text-lg opacity-50">
-                Header Tagline Four
-              </label>
-              <input
-                value={data.headerTaglineFour}
-                onChange={(e) =>
-                  setData({ ...data, headerTaglineFour: e.target.value })
-                }
-                className="w-4/5 ml-10 p-2 rounded-md shadow-lg border-2"
-                type="text"
-              ></input>
-            </div>
-            <div className="mt-5 flex items-center">
-              <label className="w-1/5 text-lg opacity-50">Blog</label>
-              <div className="w-4/5 ml-10 flex items-center">
-                <Button
-                  onClick={() => setData({ ...data, showBlog: true })}
-                  type={data.showBlog && "primary"}
-                >
-                  Yes
-                </Button>
-                <Button
-                  onClick={() => setData({ ...data, showBlog: false })}
-                  classes={
-                    !data.showBlog && "bg-red-500 text-white hover:bg-red-600"
-                  }
-                >
-                  No
-                </Button>
-              </div>
-            </div>
-            <div className="mt-5 flex items-center">
-              <label className="w-1/5 text-lg opacity-50">Dark Mode</label>
-              <div className="w-4/5 ml-10 flex items-center">
-                <Button
-                  onClick={() => setData({ ...data, darkMode: true })}
-                  type={data.darkMode && "primary"}
-                >
-                  Yes
-                </Button>
-                <Button
-                  onClick={() => setData({ ...data, darkMode: false })}
-                  classes={
-                    !data.darkMode && "bg-red-500 text-white hover:bg-red-600"
-                  }
-                >
-                  No
-                </Button>
-              </div>
-            </div>
-            <div className="mt-5 flex items-center">
-              <label className="w-1/5 text-lg opacity-50">Show Resume</label>
-              <div className="w-4/5 ml-10 flex items-center">
-                <Button
-                  onClick={() => setData({ ...data, showResume: true })}
-                  type={data.showResume && "primary"}
-                >
-                  Yes
-                </Button>
-                <Button
-                  onClick={() => setData({ ...data, showResume: false })}
-                  classes={
-                    !data.showResume && "bg-red-500 text-white hover:bg-red-600"
-                  }
-                >
-                  No
-                </Button>
-              </div>
-            </div>
-            <div className="mt-5 flex items-center">
-              <label className="w-1/5 text-lg opacity-50">Custom Cursor</label>
-              <div className="w-4/5 ml-10 flex items-center">
-                <Button
-                  onClick={() => setData({ ...data, showCursor: true })}
-                  type={data.showCursor && "primary"}
-                >
-                  Yes
-                </Button>
-                <Button
-                  onClick={() => setData({ ...data, showCursor: false })}
-                  classes={
-                    !data.showCursor && "bg-red-500 text-white hover:bg-red-600"
-                  }
-                >
-                  No
-                </Button>
-              </div>
-            </div>
-          </div>
-        )}
         {/* PROJECTS */}
         {currentTabs === "PROJECTS" && (
           <>

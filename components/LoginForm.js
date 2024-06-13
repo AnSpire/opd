@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/router';
+import Link from 'next/link';
 
 const LoginForm = () => {
   const [formData, setFormData] = useState({
@@ -45,7 +46,7 @@ const LoginForm = () => {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
       <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
-        <h2 className="text-2xl font-bold mb-6 text-center">Login</h2>
+        <h2 className="text-2xl font-bold mb-2 text-center text-black">Login</h2>
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
             <label className="block text-gray-700">Username</label>
@@ -76,6 +77,12 @@ const LoginForm = () => {
             Login
           </button>
         </form>
+        <p className="mt-4 text-center text-gray-700">
+        Don't have an account?{' '}
+          <Link href="/RegisterForm">
+            <a className="text-blue-500 hover:underline">Register!</a>
+          </Link>
+        </p>
       </div>
     </div>
   );
