@@ -7,7 +7,7 @@ import { stagger } from "../animations";
 import Link from 'next/link';
 import Button from "./Button";
 
-const UserContent = ({ handleWorkScroll, handleAboutScroll, username }) => {
+const UserProfile = ({ handleWorkScroll, handleAboutScroll, username }) => {
   const [userData, setUserData] = useState(null);
   const workRef = useRef();
   const aboutRef = useRef();
@@ -121,4 +121,4 @@ const UserContent = ({ handleWorkScroll, handleAboutScroll, username }) => {
   );
 };
 
-export default UserContent;
+export default UserProfile;

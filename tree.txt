@@ -1,9 +1,5 @@
 .
 ├── README.md
-├── _posts
-│   ├── firstblog.md
-│   ├── secondblog.md
-│   └── threeblog.md
 ├── animations
 │   └── index.js
 ├── components
@@ -15,16 +11,21 @@
 │   │   └── index.js
 │   ├── Footer
 │   │   └── index.js
+│   ├── GuestContent.js
 │   ├── Header
 │   │   └── index.js
+│   ├── LoginForm.js
 │   ├── ProjectResume
 │   │   └── index.js
+│   ├── Register.js
 │   ├── ServiceCard
 │   │   └── index.js
 │   ├── Socials
 │   │   └── index.js
+│   ├── UserContent.js
 │   └── WorkCard
 │       └── index.js
 ├── data
 │   ├── portfolio copy.json
 │   └── portfolio.json
+├── next.config.js

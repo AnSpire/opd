@@ -2,7 +2,7 @@ import { useRef, useEffect, useState } from "react";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import Head from "next/head";
-import UserContent from "../components/UserContent";
+import UserProfile from "../components/UserProfile";
 import GuestContent from "../components/GuestContent";
 
 // Local Data
@@ -40,7 +40,7 @@ export default function Home() {
       {isAuthenticated && <Header />}
       <div className="flex-grow">
         {isAuthenticated ? (
-          <UserContent
+          <UserProfile
             username={username}
           />
         ) : (

@@ -6,12 +6,14 @@ import Button from "../../components/Button";
 import Header from "../../components/Header";
 import data from "../../data/portfolio.json";
 import { ISOToDate, useIsomorphicLayoutEffect } from "../../utils";
-import { getAllPosts } from "../../utils/api";
-const Blog = ({ posts }) => {
+import axios from "axios";
+
+const Blog = () => {
   const showBlog = useRef(data.showBlog);
   const text = useRef();
   const router = useRouter();
   const [mounted, setMounted] = useState(false);
+  const [posts, setPosts] = useState([]);
 
   useIsomorphicLayoutEffect(() => {
     stagger(
@@ -25,6 +27,20 @@ const Blog = ({ posts }) => {
 
   useEffect(() => {
     setMounted(true);
+    const fetchUserPosts = async () => {
+      try {
+        const username = localStorage.getItem('username'); // Получение имени пользователя из localStorage
+        if (username) {
+          const url = `http://127.0.0.1:8000/blog/${username}/`; // Формирование URL
+          const res = await axios.get(url);
+          setPosts(res.data);
+        }
+      } catch (error) {
+        console.error('Error fetching user posts:', error);
+      }
+    };
+
+    fetchUserPosts();
   }, []);
 
   const createBlog = () => {
@@ -59,15 +75,14 @@ const Blog = ({ posts }) => {
       alert("This thing only works in development mode.");
     }
   };
+
   return (
     showBlog.current && (
       <>
         <Head>
           <title>Blog</title>
         </Head>
-        <div
-          className={`container mx-auto mb-10 `}
-        >
+        <div className={`container mx-auto mb-10 `}>
           <Header isBlog={true}></Header>
           <div className="mt-10">
             <h1
@@ -77,7 +92,7 @@ const Blog = ({ posts }) => {
               Blog.
             </h1>
             <div className="mt-10 grid grid-cols-1 mob:grid-cols-1 tablet:grid-cols-2 laptop:grid-cols-3 justify-between gap-10">
-              {posts &&
+              {Array.isArray(posts) && posts.length > 0 ? (
                 posts.map((post) => (
                   <div
                     className="cursor-pointer relative"
@@ -88,7 +103,7 @@ const Blog = ({ posts }) => {
                       className="w-full h-60 rounded-lg shadow-lg object-cover"
                       src={post.image}
                       alt={post.title}
-                    ></img>
+                    />
                     <h2 className="mt-5 text-4xl">{post.title}</h2>
                     <p className="mt-2 opacity-50 text-lg">{post.preview}</p>
                     <span className="text-sm mt-5 opacity-25">
@@ -108,7 +123,10 @@ const Blog = ({ posts }) => {
                       </div>
                     )}
                   </div>
-                ))}
+                ))
+              ) : (
+                <p>No posts found.</p>
+              )}
             </div>
           </div>
         </div>
@@ -123,22 +141,5 @@ const Blog = ({ posts }) => {
     )
   );
 };
-
-export async function getStaticProps() {
-  const posts = getAllPosts([
-    "slug",
-    "title",
-    "image",
-    "preview",
-    "author",
-    "date",
-  ]);
-
-  return {
-    props: {
-      posts: [...posts],
-    },
-  };
-}
 
 export default Blog;
