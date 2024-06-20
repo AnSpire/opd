@@ -1,5 +1,7 @@
+// components/UserProfile.js
+
 import React, { useRef, useEffect, useState } from "react";
-import axios from "axios";
+import api from '../utils/api';
 import ServiceCard from "./ServiceCard";
 import Socials from "./Socials";
 import WorkCard from "./WorkCard";
@@ -7,7 +9,7 @@ import { stagger } from "../animations";
 import Link from 'next/link';
 import Button from "./Button";
 
-const UserProfile = ({ handleWorkScroll, handleAboutScroll, username }) => {
+const UserProfile = ({ isCurrentUser, username }) => {
   const [userData, setUserData] = useState(null);
   const workRef = useRef();
   const aboutRef = useRef();
@@ -20,7 +22,13 @@ const UserProfile = ({ handleWorkScroll, handleAboutScroll, username }) => {
     // Fetch user data from backend
     const fetchData = async () => {
       try {
-        const response = await axios.get(`http://localhost:8000/userprofile/${username}/`);
+        const url = isCurrentUser
+          ? 'http://localhost:8000/api/accounts/current/'
+          : `http://localhost:8000/userprofile/${username}/`;
+
+        console.log('Token:', localStorage.getItem('accessToken'));
+
+        const response = await api.get(url); // Используем api из utils/api.js
         setUserData(response.data);
       } catch (error) {
         console.error("Error fetching user data:", error);
@@ -28,7 +36,7 @@ const UserProfile = ({ handleWorkScroll, handleAboutScroll, username }) => {
     };
 
     fetchData();
-  }, [username]);
+  }, [isCurrentUser, username]);
 
   useEffect(() => {
     if (userData && textOne.current && textTwo.current && textThree.current && textFour.current) {
@@ -52,7 +60,7 @@ const UserProfile = ({ handleWorkScroll, handleAboutScroll, username }) => {
             ref={textOne}
             className="text-3xl tablet:text-6xl laptop:text-6xl laptopl:text-8xl p-1 tablet:p-2 text-bold w-4/5 mob:w-full laptop:w-4/5"
           >
-            {username}
+            {userData.username}
           </h1>
           <h1
             ref={textTwo}
@@ -105,12 +113,14 @@ const UserProfile = ({ handleWorkScroll, handleAboutScroll, username }) => {
         </div>
       </div>
 
-      <div className="fixed bottom-5 right-5">
-        <Link href="/edit">
-          <Button type="primary">Edit Data</Button>
-        </Link>
-      </div>
-      
+      {isCurrentUser && (
+        <div className="fixed bottom-5 right-5">
+          <Link href="/edit">
+            <Button type="primary">Edit Data</Button>
+          </Link>
+        </div>
+      )}
+
       <div className="mt-10 laptop:mt-40 p-2 laptop:p-0" ref={aboutRef}>
         <h1 className="tablet:m-10 text-2xl text-bold">About.</h1>
         <p className="tablet:m-10 mt-2 text-xl laptop:text-3xl w-full laptop:w-3/5">

@@ -75,3 +75,14 @@ body {
   background: inherit;
   border-radius: inherit;
 }
+:root {
+  --svg-color: black; /* Default color */
+}
+
+[data-theme='dark'] {
+  --svg-color: white; /* Dark theme color */
+}
+
+[data-theme='light'] {
+  --svg-color: black; /* Light theme color */
+}

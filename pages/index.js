@@ -4,7 +4,7 @@ import Footer from "../components/Footer";
 import Head from "next/head";
 import UserProfile from "../components/UserProfile";
 import GuestContent from "../components/GuestContent";
-
+import TopRated from "../components/TopRated"
 // Local Data
 import data from "../data/portfolio.json";
 
@@ -39,7 +39,7 @@ export default function Home() {
 
       {isAuthenticated && <Header />}
       <div className="flex-grow">
-        {isAuthenticated ? (
+        {/* {isAuthenticated ? (
           <UserProfile
             username={username}
           />
@@ -47,7 +47,8 @@ export default function Home() {
           <div className="flex items-center justify-center h-full mt-[20%]">
             <GuestContent />
           </div>
-        )}
+        )} */}
+        <TopRated></TopRated>
       </div>
       {isAuthenticated && <Footer />}
     </div>
