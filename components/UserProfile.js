@@ -1,6 +1,7 @@
 // components/UserProfile.js
 
 import React, { useRef, useEffect, useState } from "react";
+import axios from 'axios';
 import api from '../utils/api';
 import ServiceCard from "./ServiceCard";
 import Socials from "./Socials";
@@ -8,7 +9,7 @@ import WorkCard from "./WorkCard";
 import { stagger } from "../animations";
 import Link from 'next/link';
 import Button from "./Button";
-
+import Header from "../components/Header"
 const UserProfile = ({ isCurrentUser, username }) => {
   const [userData, setUserData] = useState(null);
   const workRef = useRef();
@@ -19,6 +20,8 @@ const UserProfile = ({ isCurrentUser, username }) => {
   const textFour = useRef();
 
   useEffect(() => {
+
+
     // Fetch user data from backend
     const fetchData = async () => {
       try {
@@ -28,7 +31,14 @@ const UserProfile = ({ isCurrentUser, username }) => {
 
         console.log('Token:', localStorage.getItem('accessToken'));
 
-        const response = await api.get(url); // Используем api из utils/api.js
+        let response;
+        if (isCurrentUser) {
+          response = await api.get(url); // Using api from utils/api.js
+          console.log(userData)
+        } else {
+          response = await axios.get(url); // Using axios directly
+        }
+
         setUserData(response.data);
       } catch (error) {
         console.error("Error fetching user data:", error);
@@ -54,31 +64,32 @@ const UserProfile = ({ isCurrentUser, username }) => {
 
   return (
     <div>
+      {/* <Header></Header> */}
       <div className="laptop:mt-20 mt-10">
         <div className="mt-5">
           <h1
             ref={textOne}
-            className="text-3xl tablet:text-6xl laptop:text-6xl laptopl:text-8xl p-1 tablet:p-2 text-bold w-4/5 mob:w-full laptop:w-4/5"
+            className="text-3xl tablet:text-6xl laptop:text-6xl laptopl:text-6xl p-1 tablet:p-2 text-bold w-4/5 mob:w-full "
           >
-            {userData.username}
+           Привет, {localStorage.getItem("username")}
           </h1>
           <h1
             ref={textTwo}
-            className="text-3xl tablet:text-6xl laptop:text-6xl laptopl:text-8xl p-1 tablet:p-2 text-bold w-full laptop:w-4/5"
+            className="text-3xl tablet:text-6xl laptop:text-6xl laptopl:text-6xl p-1 tablet:p-2 text-bold w-full "
           >
-            {userData.header_tagline_two}
+            Я рад видеть тебя на своей странице
           </h1>
           <h1
             ref={textThree}
-            className="text-3xl tablet:text-6xl laptop:text-6xl laptopl:text-8xl p-1 tablet:p-2 text-bold w-full laptop:w-4/5"
+            className="text-3xl tablet:text-6xl laptop:text-6xl laptopl:text-6xl p-1 tablet:p-2 text-bold w-full "
           >
-            {userData.header_tagline_three}
+            {/* Возможно, тут нужно добавить какой-то текст */}
           </h1>
           <h1
             ref={textFour}
-            className="text-3xl tablet:text-6xl laptop:text-6xl laptopl:text-8xl p-1 tablet:p-2 text-bold w-full laptop:w-4/5"
+            className="text-3xl tablet:text-6xl laptop:text-6xl laptopl:text-6xl p-1 tablet:p-2 text-bold w-full "
           >
-            {userData.header_tagline_four}
+            Здесь ты можешь посмотреть мои работы и познакомиться со мной
           </h1>
         </div>
 

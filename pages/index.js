@@ -29,7 +29,7 @@ export default function Home() {
   // Handling Scroll
 
   return (
-    <div className={`relative p-6 min-h-screen flex flex-col`}>
+    <div className={`relative p-6 min-h-screen flex flex-col p-6 max-w-[1440px] mx-auto`}>
       <Head>
         <title>{username}</title>
       </Head>
@@ -37,7 +37,7 @@ export default function Home() {
       <div className="gradient-circle"></div>
       <div className="gradient-circle-bottom"></div>
 
-      {isAuthenticated && <Header />}
+      <Header />
       <div className="flex-grow">
         {/* {isAuthenticated ? (
           <UserProfile
@@ -50,7 +50,6 @@ export default function Home() {
         )} */}
         <TopRated></TopRated>
       </div>
-      {isAuthenticated && <Footer />}
     </div>
   );
 }

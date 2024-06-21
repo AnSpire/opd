@@ -8,7 +8,7 @@ import { useIsomorphicLayoutEffect } from "../../utils";
 import { stagger } from "../../animations";
 import Button from "../../components/Button";
 import { useRouter } from "next/router";
-
+import Link from 'next/link';
 const BlogPost = () => {
   const [post, setPost] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -66,7 +66,7 @@ const BlogPost = () => {
 
       <div className={`container mx-auto mt-10`}>
         <Header/>
-        <div className="mt-10 flex flex-col max-w-[1024px mx-auto">
+        <div className="mt-10 flex flex-col max-w-[800px] mx-auto">
           <img
             className="w-full h-96 rounded-lg shadow-lg object-cover max-w-[800px]"
             src={post.image}
@@ -85,7 +85,10 @@ const BlogPost = () => {
             {post.tagline}
           </h2>
           <div className="text-wrap">
-        <p className="text-wrap">{post.description}</p>
+        <div className="mb-10 text-2xl"><p className="text-wrap">{post.description}</p></div>
+        <Link  className="pt-10 box-border" href={`/${post.author}`}>
+          <a className="pt-10">@{post.author}</a>
+        </Link>
         </div>
         </div>
        

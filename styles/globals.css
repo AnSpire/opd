@@ -4,9 +4,9 @@
 @tailwind utilities;
 @import "./markdown.css";
 
-* {
-  font-family: "Hind";
-}
+/* * {
+  font-family: "NEXT ART";
+} */
 
 body {
   @apply dark:bg-black dark:text-white;
@@ -85,4 +85,38 @@ body {
 
 [data-theme='light'] {
   --svg-color: black; /* Light theme color */
+}
+
+@font-face {
+  font-family: 'NEXT ART Bold';
+  src: url('fonts/NEXT ART_Bold.otf') format('opentype');
+  font-weight: bold; /* или 700 */
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'NEXT ART Heavy';
+  src: url('fonts/NEXT ART_Heavy.otf') format('opentype');
+  font-weight: bold; /* или 700 */
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'NEXT ART Light';
+  src: url('fonts/NEXT ART_Light.otf') format('opentype');
+  font-weight: lighter; /* или 100 */
+  font-style: normal;
+}
+@font-face {
+  font-family: 'NEXT ART Regular';
+  src: url('fonts/NEXT ART_Regular.otf') format('opentype');
+  font-weight: normal; /* или 400 */
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'NEXT ART SemiBold';
+  src: url('fonts/NEXT ART_SemiBold.otf') format('opentype');
+  font-weight: 600; /* или semi-bold */
+  font-style: normal;
 }

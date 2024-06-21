@@ -27,12 +27,10 @@ const TopRated = () => {
     setMounted(true);
     const fetchUserPosts = async () => {
       try {
-        const username = localStorage.getItem('username'); // Получение имени пользователя из localStorage
-        if (username) {
           const url = `http://127.0.0.1:8000/blog/top_rated_posts/`; // Формирование URL
           const res = await axios.get(url);
           setPosts(res.data);
-        }
+          console.log(posts)
       } catch (error) {
         console.error('Error fetching user posts:', error);
       }
@@ -48,13 +46,14 @@ const TopRated = () => {
         <Head>
           <title>Blog</title>
         </Head>
-        <div className={`container mx-auto mb-10 `}>
+        <div className={`container mx-auto mb-10  mt-[10%]`}>
           <div className="mt-10">
             <h1
               ref={text}
               className="mx-auto mob:p-2 text-bold text-6xl laptop:text-8xl w-full"
             >
-              Best Authors  
+              Лучшие посты
+
             </h1>
             <div className="mt-10 grid grid-cols-1 mob:grid-cols-1 tablet:grid-cols-2 laptop:grid-cols-3 justify-between gap-10">
               {Array.isArray(posts) && posts.length > 0 ? (
@@ -71,8 +70,8 @@ const TopRated = () => {
                     />
                     <h2 className="mt-5 text-4xl">{post.title}</h2>
                     <p className="mt-2 opacity-50 text-lg">{post.preview}</p>
-                    <span className="text-sm mt-5 opacity-25 cursor-pointer">
-                     {post.author}
+                    <span className="text-sm cursor-pointer mt-5 text-white">
+                     {post.rating}/10
                     </span>
                     {process.env.NODE_ENV === "development" && mounted && (
                       <div className="absolute top-0 right-0">
